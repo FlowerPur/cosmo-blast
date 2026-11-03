@@ -8,8 +8,7 @@ public sealed class MainMenu : Menu
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _exitButton;
 
-    [SerializeField] private GameObject _gameMenu;
-    [SerializeField] private GameObject _settingsMenu;
+    [SerializeField] private SettingsMenu _settingsMenu;
 
     private void OnEnable()
     {
@@ -23,7 +22,7 @@ public sealed class MainMenu : Menu
         _exitButton.onClick.RemoveListener(OnExitButtonClick);
     }
 
-    private void OnSettingsButtonClick() => TransitionToMenu(_settingsMenu);
+    private void OnSettingsButtonClick() => SwitchTo(_settingsMenu);
 
     private void OnExitButtonClick()
     {

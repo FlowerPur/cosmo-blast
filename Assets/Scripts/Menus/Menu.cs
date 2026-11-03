@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class Menu : MonoBehaviour
 {
-    protected void TransitionToMenu(GameObject menu)
+    protected void SwitchTo(Menu menu)
     {
-        menu.SetActive(true);
+        menu.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 }
