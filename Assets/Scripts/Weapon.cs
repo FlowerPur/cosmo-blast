@@ -1,5 +1,9 @@
+using System;
+
 public abstract class Weapon
 {
+    public Action Depleted;
+
     private bool _isAttacking;
 
     public void StartAttack() => _isAttacking = true;

@@ -19,10 +19,10 @@ public class AssaultRifleWeapon : Weapon
 
         t += Time.deltaTime;
 
-        if (t >= 0.75f)
+        if (t >= 3f)
         {
             Debug.Log("Assault rifle shooting");
-            t = 0;
+            Depleted?.Invoke();
         }
     }
 }

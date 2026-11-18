@@ -19,7 +19,7 @@ public class PistolWeapon : Weapon
 
         t += Time.deltaTime;
 
-        if (t >= 2f)
+        if (t >= 3f)
         {
             Debug.Log("Pistol shooting");
             t = 0;

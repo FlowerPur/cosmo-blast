@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -5,39 +6,31 @@ public class PlayerAttack : MonoBehaviour
     private Weapon _defaultWeapon;
     private Weapon _currentWeapon;
 
-    private Weapon _assaultRifleWeapon;
-
-    [SerializeField] private bool _testAssaultRifle;
-
-    private void Start()
+    private void Awake()
     {
         _defaultWeapon = new PistolWeapon(transform, null);
-        _assaultRifleWeapon = new AssaultRifleWeapon(transform, null);
-
-        if (_defaultWeapon == null) return;
-        _currentWeapon = _defaultWeapon;
-        _currentWeapon.StartAttack();
+        SetWeapon(_defaultWeapon);
     }
 
-    private void Update()
-    {
-        if (_testAssaultRifle)
-        {
-            SetWeapon(_assaultRifleWeapon);
-        }
-        else
-        {
-            SetWeapon(_defaultWeapon);
-        }
-        _currentWeapon?.Update();
-    }
+    private void Start() => _currentWeapon.StartAttack();
+
+    private void Update() => _currentWeapon.Update();
 
     public void SetWeapon(Weapon weapon)
     {
-        _currentWeapon?.StopAttack();
+        weapon = weapon ?? throw new ArgumentNullException(nameof(weapon));
+
+        if (_currentWeapon != null)
+        {
+            _currentWeapon.StopAttack();
+            _currentWeapon.Depleted -= OnWeaponDepleted;
+        }
 
         _currentWeapon = weapon;
 
+        _currentWeapon.Depleted += OnWeaponDepleted;
         _currentWeapon.StartAttack();
     }
+
+    private void OnWeaponDepleted() => SetWeapon(_defaultWeapon);
 }
