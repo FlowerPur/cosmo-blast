@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public sealed class PlayerAttack : MonoBehaviour
 {
     private Weapon _defaultWeapon;
     private Weapon _currentWeapon;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PistolWeapon : Weapon
+public sealed class PistolWeapon : Weapon
 {
     private Transform _firePoint;
     private GameObject _bulletPrefab;
