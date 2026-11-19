@@ -1,18 +1,21 @@
 using System;
 using UnityEngine;
+using VContainer;
 
 public sealed class PlayerAttack : MonoBehaviour
 {
+    private WeaponFactory _weaponFactory;
     private Weapon _defaultWeapon;
     private Weapon _currentWeapon;
 
-    private void Awake()
+    [Inject]
+    public void Construct(WeaponFactory weaponFactory)
     {
-        _defaultWeapon = new PistolWeapon(transform, null);
-        SetWeapon(_defaultWeapon);
+        _weaponFactory = weaponFactory ?? throw new ArgumentNullException(nameof(weaponFactory));
+        _defaultWeapon = _weaponFactory.CreateDefaultWeapon();
     }
 
-    private void Start() => _currentWeapon.StartAttack();
+    private void Start() => SetWeapon(_defaultWeapon);
 
     private void Update() => _currentWeapon.Update();
 

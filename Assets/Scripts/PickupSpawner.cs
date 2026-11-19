@@ -1,9 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using VContainer;
 
 public sealed class PickupSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _prefab;
+
+    private WeaponFactory _weaponFactory;
+
+    [Inject]
+    public void Construct(WeaponFactory weaponFactory) =>
+        _weaponFactory = weaponFactory ?? throw new System.ArgumentNullException(nameof(weaponFactory));
 
     private void Start()
     {
@@ -18,17 +25,7 @@ public sealed class PickupSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(randomTime);
 
-            Instantiate(_prefab, transform.position, Quaternion.identity).GetComponent<WeaponPickup>().Initialize(GetRandomWeapon());
+            Instantiate(_prefab, transform.position, Quaternion.identity).GetComponent<WeaponPickup>().Initialize(_weaponFactory.CreateRandomWeapon());
         }
-    }
-
-    private Weapon GetRandomWeapon()
-    {
-        return Random.Range(0, 2) switch
-        {
-            0 => new PistolWeapon(null, null),
-            1 => new AssaultRifleWeapon(null, null),
-            _ => throw new System.ArgumentOutOfRangeException()
-        };
     }
 }

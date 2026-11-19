@@ -3,13 +3,13 @@ using UnityEngine;
 public sealed class PlayerMovement : MonoBehaviour
 {
     private PlayerInputActions _playerInputActions;
-    private Rect _rect;
+    private Rect _movementTouchArea;
     private Camera _camera;
 
     private void Awake()
     {
         _playerInputActions = new PlayerInputActions();
-        _rect = new Rect(0, 0, Screen.width, Screen.height * 0.5f);
+        _movementTouchArea = new Rect(0, 0, Screen.width, Screen.height * 0.5f);
         _camera = Camera.main;
     }
 
@@ -23,7 +23,7 @@ public sealed class PlayerMovement : MonoBehaviour
 
         Vector2 touchPosition = _playerInputActions.Player.TouchPosition.ReadValue<Vector2>();
 
-        if (!_rect.Contains(touchPosition)) return;
+        if (!_movementTouchArea.Contains(touchPosition)) return;
 
         Vector3 objectScreenPosition = _camera.WorldToScreenPoint(transform.position);
 
