@@ -1,13 +1,10 @@
-using System;
 using UnityEngine;
 
-public sealed class Health : MonoBehaviour
+public abstract class Health : MonoBehaviour
 {
     [SerializeField] private int _maxHealth;
 
     private int _currentHealth;
-
-    public event Action Died;
 
     private void Awake() => _currentHealth = _maxHealth;
 
@@ -21,9 +18,5 @@ public sealed class Health : MonoBehaviour
             Die();
     }
 
-    private void Die()
-    {
-        Died.Invoke();
-        Destroy(gameObject);
-    }
+    protected abstract void Die();
 }
