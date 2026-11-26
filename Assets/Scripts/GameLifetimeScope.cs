@@ -4,13 +4,12 @@ using VContainer.Unity;
 
 public sealed class GameLifetimeScope : LifetimeScope
 {
-    [SerializeField] private Transform _firePoint;
-
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.RegisterInstance(new WeaponFactory(_firePoint));
+        builder.RegisterInstance(new WeaponFactory());
 
         builder.RegisterComponentInHierarchy<PlayerAttack>();
         builder.RegisterComponentInHierarchy<PickupSpawner>();
+        builder.RegisterComponentInHierarchy<EnemyAttack>();
     }
 }

@@ -21,7 +21,7 @@ public sealed class PistolWeapon : Weapon
 
         if (t >= 3f)
         {
-            Debug.Log($"Pistol shooting {_firePoint.position}");
+            Debug.Log($"Pistol shooting {_firePoint.position} {_firePoint.gameObject.name}");
             t = 0;
         }
     }

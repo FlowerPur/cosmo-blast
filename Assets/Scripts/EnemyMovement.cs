@@ -2,7 +2,7 @@ using UnityEngine;
 
 public sealed class EnemyMovement : MonoBehaviour
 {
-    [field: SerializeField] public float Speed { get; set; } = 1f;
+    [SerializeField] private float _speed;
 
     private Camera _camera;
     private Vector3 _targetPosition;
@@ -39,6 +39,6 @@ public sealed class EnemyMovement : MonoBehaviour
         transform.position = Vector3.Lerp(
             transform.position,
             targetPosition,
-            Speed * Time.deltaTime
+            _speed * Time.deltaTime
         );
 }

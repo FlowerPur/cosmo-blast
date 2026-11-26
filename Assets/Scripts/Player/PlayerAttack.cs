@@ -12,7 +12,7 @@ public sealed class PlayerAttack : MonoBehaviour
     public void Construct(WeaponFactory weaponFactory)
     {
         _weaponFactory = weaponFactory ?? throw new ArgumentNullException(nameof(weaponFactory));
-        _defaultWeapon = _weaponFactory.CreateDefaultWeapon();
+        _defaultWeapon = _weaponFactory.CreateDefaultWeapon(transform);
     }
 
     private void Start() => SetWeapon(_defaultWeapon);

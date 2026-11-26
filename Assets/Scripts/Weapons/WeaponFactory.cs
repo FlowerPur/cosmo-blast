@@ -4,36 +4,29 @@ using Random = UnityEngine.Random;
 
 public sealed class WeaponFactory
 {
-    private readonly Transform _firePoint;
-
-    public WeaponFactory(Transform firePoint)
+    public PistolWeapon CreateDefaultWeapon(Transform firePoint)
     {
-        _firePoint = firePoint;
+        return new PistolWeapon(firePoint, null);
     }
 
-    public PistolWeapon CreateDefaultWeapon()
+    public PistolWeapon CreatePistolWeapon(Transform firePoint)
     {
-        return new PistolWeapon(_firePoint, null);
+        return new PistolWeapon(firePoint, null);
     }
 
-    public PistolWeapon CreatePistolWeapon()
+    public AssaultRifleWeapon CreateAssaultRifleWeapon(Transform firePoint)
     {
-        return new PistolWeapon(_firePoint, null);
+        return new AssaultRifleWeapon(firePoint, null);
     }
 
-    public AssaultRifleWeapon CreateAssaultRifleWeapon()
-    {
-        return new AssaultRifleWeapon(_firePoint, null);
-    }
-
-    public Weapon CreateRandomWeapon()
+    public Weapon CreateRandomWeapon(Transform firePoint)
     {
         int index = Random.Range(0, 2);
 
         return index switch
         {
-            0 => CreatePistolWeapon(),
-            1 => CreateAssaultRifleWeapon(),
+            0 => CreatePistolWeapon(firePoint),
+            1 => CreateAssaultRifleWeapon(firePoint),
             _ => throw new ArgumentOutOfRangeException(nameof(index))
         };
     }

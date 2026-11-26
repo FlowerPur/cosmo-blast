@@ -25,7 +25,7 @@ public sealed class PickupSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(randomTime);
 
-            Instantiate(_prefab, transform.position, Quaternion.identity).GetComponent<WeaponPickup>().Initialize(_weaponFactory.CreateRandomWeapon());
+            // Instantiate(_prefab, transform.position, Quaternion.identity).GetComponent<WeaponPickup>().Initialize(_weaponFactory.CreateRandomWeapon());
         }
     }
 }
