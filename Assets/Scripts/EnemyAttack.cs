@@ -17,7 +17,7 @@ public sealed class EnemyAttack : MonoBehaviour
 
         _weapon = _weaponType switch
         {
-            WeaponType.PistolWeapon => _weaponFactory.CreatePistolWeapon(transform),
+            WeaponType.PistolWeapon => _weaponFactory.CreatePistolWeapon(transform, Layers.EnemyProjectile),
             WeaponType.AssaultRifle => _weaponFactory.CreateAssaultRifleWeapon(transform),
             _ => throw new ArgumentOutOfRangeException(nameof(_weaponType))
         };

@@ -4,28 +4,28 @@ using Random = UnityEngine.Random;
 
 public sealed class WeaponFactory
 {
-    public PistolWeapon CreateDefaultWeapon(Transform firePoint)
+    private readonly GameObject _defaultBulletPrefab;
+
+    public WeaponFactory(GameObject defaultBulletPrefab)
     {
-        return new PistolWeapon(firePoint, null);
+        _defaultBulletPrefab = defaultBulletPrefab != null
+            ? defaultBulletPrefab
+            : throw new ArgumentNullException(nameof(defaultBulletPrefab));
     }
 
-    public PistolWeapon CreatePistolWeapon(Transform firePoint)
-    {
-        return new PistolWeapon(firePoint, null);
-    }
+    public PistolWeapon CreateDefaultWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile) => new PistolWeapon(firePoint, _defaultBulletPrefab, layerName);
 
-    public AssaultRifleWeapon CreateAssaultRifleWeapon(Transform firePoint)
-    {
-        return new AssaultRifleWeapon(firePoint, null);
-    }
+    public PistolWeapon CreatePistolWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile) => new PistolWeapon(firePoint, _defaultBulletPrefab, layerName);
 
-    public Weapon CreateRandomWeapon(Transform firePoint)
+    public AssaultRifleWeapon CreateAssaultRifleWeapon(Transform firePoint) => new AssaultRifleWeapon(firePoint, null);
+
+    public Weapon CreateRandomWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile)
     {
         int index = Random.Range(0, 2);
 
         return index switch
         {
-            0 => CreatePistolWeapon(firePoint),
+            0 => CreatePistolWeapon(firePoint, layerName),
             1 => CreateAssaultRifleWeapon(firePoint),
             _ => throw new ArgumentOutOfRangeException(nameof(index))
         };

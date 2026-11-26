@@ -1,11 +1,11 @@
-using System;
+using UnityEngine;
 
 public sealed class PlayerHealth : Health
 {
-    public event Action Died;
+    // public event Action Died;
 
     protected override void Die()
     {
-        throw new NotImplementedException();
+        Debug.Log("Player died!");
     }
 }
