@@ -1,39 +1,43 @@
 using System;
 using UnityEngine;
 using VContainer;
+using CosmoBlast.Weapons;
 
-public sealed class PlayerAttack : MonoBehaviour
+namespace CosmoBlast.Player
 {
-    private WeaponFactory _weaponFactory;
-    private Weapon _defaultWeapon;
-    private Weapon _currentWeapon;
-
-    [Inject]
-    public void Construct(WeaponFactory weaponFactory)
+    public sealed class PlayerAttack : MonoBehaviour
     {
-        _weaponFactory = weaponFactory ?? throw new ArgumentNullException(nameof(weaponFactory));
-        _defaultWeapon = _weaponFactory.CreateDefaultWeapon(transform);
-    }
+        private WeaponFactory _weaponFactory;
+        private Weapon _defaultWeapon;
+        private Weapon _currentWeapon;
 
-    private void Start() => SetWeapon(_defaultWeapon);
-
-    private void Update() => _currentWeapon.Update();
-
-    public void SetWeapon(Weapon weapon)
-    {
-        weapon = weapon ?? throw new ArgumentNullException(nameof(weapon));
-
-        if (_currentWeapon != null)
+        [Inject]
+        public void Construct(WeaponFactory weaponFactory)
         {
-            _currentWeapon.StopAttack();
-            _currentWeapon.Depleted -= OnWeaponDepleted;
+            _weaponFactory = weaponFactory ?? throw new ArgumentNullException(nameof(weaponFactory));
+            _defaultWeapon = _weaponFactory.CreateDefaultWeapon(transform);
         }
 
-        _currentWeapon = weapon;
+        private void Start() => SetWeapon(_defaultWeapon);
 
-        _currentWeapon.Depleted += OnWeaponDepleted;
-        _currentWeapon.StartAttack();
+        private void Update() => _currentWeapon.Update();
+
+        public void SetWeapon(Weapon weapon)
+        {
+            weapon = weapon ?? throw new ArgumentNullException(nameof(weapon));
+
+            if (_currentWeapon != null)
+            {
+                _currentWeapon.StopAttack();
+                _currentWeapon.Depleted -= OnWeaponDepleted;
+            }
+
+            _currentWeapon = weapon;
+
+            _currentWeapon.Depleted += OnWeaponDepleted;
+            _currentWeapon.StartAttack();
+        }
+
+        private void OnWeaponDepleted() => SetWeapon(_defaultWeapon);
     }
-
-    private void OnWeaponDepleted() => SetWeapon(_defaultWeapon);
 }

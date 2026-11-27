@@ -1,17 +1,23 @@
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using CosmoBlast.Player;
+using CosmoBlast.Enemy;
+using CosmoBlast.Weapons;
 
-public sealed class GameLifetimeScope : LifetimeScope
+namespace CosmoBlast
 {
-    [SerializeField] private GameObject _defaultBulletPrefab;
-
-    protected override void Configure(IContainerBuilder builder)
+    public sealed class GameLifetimeScope : LifetimeScope
     {
-        builder.RegisterInstance(new WeaponFactory(_defaultBulletPrefab));
+        [SerializeField] private GameObject _defaultBulletPrefab;
 
-        builder.RegisterComponentInHierarchy<PlayerAttack>();
-        builder.RegisterComponentInHierarchy<PickupSpawner>();
-        builder.RegisterComponentInHierarchy<EnemyAttack>();
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(new WeaponFactory(_defaultBulletPrefab));
+
+            builder.RegisterComponentInHierarchy<PlayerAttack>();
+            builder.RegisterComponentInHierarchy<PickupSpawner>();
+            builder.RegisterComponentInHierarchy<EnemyAttack>();
+        }
     }
 }

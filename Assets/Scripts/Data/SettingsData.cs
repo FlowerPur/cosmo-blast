@@ -1,12 +1,15 @@
 using System;
 
-// TODO: прописать настройки
-[Serializable]
-public struct SettingsData
+namespace CosmoBlast.Data
 {
-    public static SettingsData GetDefault() =>
-        new()
-        {
+    // TODO: прописать настройки
+    [Serializable]
+    public struct SettingsData
+    {
+        public static SettingsData GetDefault() =>
+            new()
+            {
 
-        };
+            };
+    }
 }

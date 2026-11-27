@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class Pickup : MonoBehaviour
+namespace CosmoBlast.Pickups
 {
+    public class Pickup : MonoBehaviour
+    {
 
+    }
 }

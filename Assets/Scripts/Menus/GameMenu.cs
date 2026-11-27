@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public sealed class GameMenu : Menu
+namespace CosmoBlast.Menus
 {
+    public sealed class GameMenu : Menu
+    {
 
+    }
 }

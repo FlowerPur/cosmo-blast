@@ -1,55 +1,58 @@
 using System;
 using UnityEngine;
 
-public sealed class PistolWeapon : Weapon
+namespace CosmoBlast.Weapons
 {
-    private Transform _firePoint;
-    private GameObject _projectilePrefab;
-    private readonly int _projectileLayer;
-
-    private float t;
-
-    public PistolWeapon(Transform firePoint, GameObject projectilePrefab, string layerName)
+    public sealed class PistolWeapon : Weapon
     {
-        if (firePoint == null)
-            throw new ArgumentNullException(nameof(firePoint));
+        private Transform _firePoint;
+        private GameObject _projectilePrefab;
+        private readonly int _projectileLayer;
 
-        if (projectilePrefab == null)
-            throw new ArgumentNullException(nameof(projectilePrefab));
+        private float t;
 
-        if (string.IsNullOrWhiteSpace(layerName))
-            throw new ArgumentException("Layer name cannot be empty.", nameof(layerName));
-
-        _firePoint = firePoint;
-        _projectilePrefab = projectilePrefab;
-
-        _projectileLayer = LayerMask.NameToLayer(layerName);
-
-        if (_projectileLayer == -1)
-            throw new ArgumentException($"Unity layer '{layerName}' is not configured.", nameof(layerName));
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        t += Time.deltaTime;
-
-        if (t >= 3f)
+        public PistolWeapon(Transform firePoint, GameObject projectilePrefab, string layerName)
         {
-            Debug.Log($"Pistol shooting {_firePoint.position} {_firePoint.gameObject.name}");
+            if (firePoint == null)
+                throw new ArgumentNullException(nameof(firePoint));
 
-            GameObject bullet = UnityEngine.Object.Instantiate(
-                _projectilePrefab,
-                _firePoint.position,
-                _firePoint.rotation);
-            bullet.layer = _projectileLayer;
-            if (bullet.layer == LayerMask.NameToLayer(Layers.EnemyProjectile))
+            if (projectilePrefab == null)
+                throw new ArgumentNullException(nameof(projectilePrefab));
+
+            if (string.IsNullOrWhiteSpace(layerName))
+                throw new ArgumentException("Layer name cannot be empty.", nameof(layerName));
+
+            _firePoint = firePoint;
+            _projectilePrefab = projectilePrefab;
+
+            _projectileLayer = LayerMask.NameToLayer(layerName);
+
+            if (_projectileLayer == -1)
+                throw new ArgumentException($"Unity layer '{layerName}' is not configured.", nameof(layerName));
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            t += Time.deltaTime;
+
+            if (t >= 3f)
             {
-                bullet.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
-            }
+                Debug.Log($"Pistol shooting {_firePoint.position} {_firePoint.gameObject.name}");
 
-            t = 0;
+                GameObject bullet = UnityEngine.Object.Instantiate(
+                    _projectilePrefab,
+                    _firePoint.position,
+                    _firePoint.rotation);
+                bullet.layer = _projectileLayer;
+                if (bullet.layer == LayerMask.NameToLayer(Layers.EnemyProjectile))
+                {
+                    bullet.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                }
+
+                t = 0;
+            }
         }
     }
 }

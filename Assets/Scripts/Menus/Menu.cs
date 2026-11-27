@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public abstract class Menu : MonoBehaviour
+namespace CosmoBlast.Menus
 {
-    protected void SwitchTo(Menu menu)
+    public abstract class Menu : MonoBehaviour
     {
-        menu.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        protected void SwitchTo(Menu menu)
+        {
+            menu.gameObject.SetActive(true);
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -1,17 +1,22 @@
 using UnityEngine;
+using CosmoBlast.Player;
+using CosmoBlast.Weapons;
 
-public sealed class WeaponPickup : MonoBehaviour
+namespace CosmoBlast.Pickups
 {
-    private Weapon _weapon;
-
-    public void Initialize(Weapon weapon) => _weapon = weapon;
-
-    private void OnTriggerEnter2D(Collider2D other)
+    public sealed class WeaponPickup : MonoBehaviour
     {
-        if (!other.TryGetComponent(out PlayerAttack playerAttack)) return;
+        private Weapon _weapon;
 
-        playerAttack.SetWeapon(_weapon);
+        public void Initialize(Weapon weapon) => _weapon = weapon;
 
-        Destroy(gameObject);
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!other.TryGetComponent(out PlayerAttack playerAttack)) return;
+
+            playerAttack.SetWeapon(_weapon);
+
+            Destroy(gameObject);
+        }
     }
 }

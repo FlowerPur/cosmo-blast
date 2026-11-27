@@ -1,5 +1,8 @@
-public static class Layers
+namespace CosmoBlast
 {
-    public const string PlayerProjectile = "PlayerProjectile";
-    public const string EnemyProjectile = "EnemyProjectile";
+    public static class Layers
+    {
+        public const string PlayerProjectile = "PlayerProjectile";
+        public const string EnemyProjectile = "EnemyProjectile";
+    }
 }

@@ -1,28 +1,31 @@
 using UnityEngine;
 
-public sealed class AssaultRifleWeapon : Weapon
+namespace CosmoBlast.Weapons
 {
-    private Transform _firePoint;
-    private GameObject _bulletPrefab;
-
-    private float t;
-
-    public AssaultRifleWeapon(Transform firePoint, GameObject bulletPrefab)
+    public sealed class AssaultRifleWeapon : Weapon
     {
-        _firePoint = firePoint;
-        _bulletPrefab = bulletPrefab;
-    }
+        private Transform _firePoint;
+        private GameObject _bulletPrefab;
 
-    public override void Update()
-    {
-        base.Update();
+        private float t;
 
-        t += Time.deltaTime;
-
-        if (t >= 3f)
+        public AssaultRifleWeapon(Transform firePoint, GameObject bulletPrefab)
         {
-            Debug.Log("Assault rifle shooting");
-            Depleted?.Invoke();
+            _firePoint = firePoint;
+            _bulletPrefab = bulletPrefab;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            t += Time.deltaTime;
+
+            if (t >= 3f)
+            {
+                Debug.Log("Assault rifle shooting");
+                Depleted?.Invoke();
+            }
         }
     }
 }

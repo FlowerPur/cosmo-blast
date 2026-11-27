@@ -2,32 +2,36 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
+using CosmoBlast.Data;
 
 // TODO: Сделать более серьезную защиту и проверку данных
-public static class SettingsStorage
+namespace CosmoBlast.Storages
 {
-    private static readonly string _path = Path.Combine(Application.persistentDataPath, "Settings.json");
-
-    private static readonly JsonSerializerSettings _options = new()
+    public static class SettingsStorage
     {
-        Formatting = Formatting.Indented
-    };
+        private static readonly string _path = Path.Combine(Application.persistentDataPath, "Settings.json");
 
-    public static event Action<SettingsData> SettingsChanged;
+        private static readonly JsonSerializerSettings _options = new()
+        {
+            Formatting = Formatting.Indented
+        };
 
-    public static SettingsData Load() => JsonConvert.DeserializeObject<SettingsData>(File.ReadAllText(_path), _options);
+        public static event Action<SettingsData> SettingsChanged;
 
-    public static void Save(SettingsData settings)
-    {
-        File.WriteAllText(_path, JsonConvert.SerializeObject(settings, _options));
+        public static SettingsData Load() => JsonConvert.DeserializeObject<SettingsData>(File.ReadAllText(_path), _options);
 
-        SettingsChanged?.Invoke(settings);
-    }
+        public static void Save(SettingsData settings)
+        {
+            File.WriteAllText(_path, JsonConvert.SerializeObject(settings, _options));
 
-    public static void EnsureFileExists()
-    {
-        if (File.Exists(_path)) return;
+            SettingsChanged?.Invoke(settings);
+        }
 
-        Save(SettingsData.GetDefault());
+        public static void EnsureFileExists()
+        {
+            if (File.Exists(_path)) return;
+
+            Save(SettingsData.GetDefault());
+        }
     }
 }

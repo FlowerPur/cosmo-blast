@@ -1,17 +1,20 @@
 using System;
 
-public abstract class Weapon
+namespace CosmoBlast.Weapons
 {
-    public Action Depleted;
-
-    private bool _isAttacking;
-
-    public void StartAttack() => _isAttacking = true;
-
-    public void StopAttack() => _isAttacking = false;
-
-    public virtual void Update()
+    public abstract class Weapon
     {
-        if (!_isAttacking) return;
+        public Action Depleted;
+
+        private bool _isAttacking;
+
+        public void StartAttack() => _isAttacking = true;
+
+        public void StopAttack() => _isAttacking = false;
+
+        public virtual void Update()
+        {
+            if (!_isAttacking) return;
+        }
     }
 }

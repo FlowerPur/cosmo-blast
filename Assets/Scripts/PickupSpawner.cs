@@ -1,31 +1,36 @@
 using System.Collections;
 using UnityEngine;
 using VContainer;
+using CosmoBlast.Pickups;
+using CosmoBlast.Weapons;
 
-public sealed class PickupSpawner : MonoBehaviour
+namespace CosmoBlast
 {
-    [SerializeField] private GameObject _prefab;
-
-    private WeaponFactory _weaponFactory;
-
-    [Inject]
-    public void Construct(WeaponFactory weaponFactory) =>
-        _weaponFactory = weaponFactory ?? throw new System.ArgumentNullException(nameof(weaponFactory));
-
-    private void Start()
+    public sealed class PickupSpawner : MonoBehaviour
     {
-        StartCoroutine(SpawnRoutine());
-    }
+        [SerializeField] private GameObject _prefab;
 
-    private IEnumerator SpawnRoutine()
-    {
-        while (true)
+        private WeaponFactory _weaponFactory;
+
+        [Inject]
+        public void Construct(WeaponFactory weaponFactory) =>
+            _weaponFactory = weaponFactory ?? throw new System.ArgumentNullException(nameof(weaponFactory));
+
+        private void Start()
         {
-            float randomTime = Random.Range(3f, 8f);
+            StartCoroutine(SpawnRoutine());
+        }
 
-            yield return new WaitForSeconds(randomTime);
+        private IEnumerator SpawnRoutine()
+        {
+            while (true)
+            {
+                float randomTime = Random.Range(3f, 8f);
 
-            // Instantiate(_prefab, transform.position, Quaternion.identity).GetComponent<WeaponPickup>().Initialize(_weaponFactory.CreateRandomWeapon());
+                yield return new WaitForSeconds(randomTime);
+
+                // Instantiate(_prefab, transform.position, Quaternion.identity).GetComponent<WeaponPickup>().Initialize(_weaponFactory.CreateRandomWeapon());
+            }
         }
     }
 }

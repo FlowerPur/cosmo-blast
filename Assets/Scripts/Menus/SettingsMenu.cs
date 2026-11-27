@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class SettingsMenu : Menu
+namespace CosmoBlast.Menus
 {
-    [SerializeField] private Button _backButton;
+    public sealed class SettingsMenu : Menu
+    {
+        [SerializeField] private Button _backButton;
 
-    [SerializeField] private MainMenu _mainMenu;
+        [SerializeField] private MainMenu _mainMenu;
 
-    private void OnEnable() => _backButton.onClick.AddListener(OnBackButtonClick);
+        private void OnEnable() => _backButton.onClick.AddListener(OnBackButtonClick);
 
-    private void OnDisable() => _backButton.onClick.RemoveListener(OnBackButtonClick);
+        private void OnDisable() => _backButton.onClick.RemoveListener(OnBackButtonClick);
 
-    private void OnBackButtonClick() => SwitchTo(_mainMenu);
+        private void OnBackButtonClick() => SwitchTo(_mainMenu);
+    }
 }
