@@ -1,29 +1,30 @@
 using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace CosmoBlast.Weapons
 {
     public sealed class PistolWeapon : Weapon
     {
-        private Transform _firePoint;
-        private GameObject _projectilePrefab;
+        private readonly Transform _firePoint;
+        private readonly ObjectPool<GameObject> _projectilePool;
         private readonly int _projectileLayer;
 
         private float t;
 
-        public PistolWeapon(Transform firePoint, GameObject projectilePrefab, string layerName)
+        public PistolWeapon(Transform firePoint, ObjectPool<GameObject> projectilePool, string layerName)
         {
             if (firePoint == null)
                 throw new ArgumentNullException(nameof(firePoint));
 
-            if (projectilePrefab == null)
-                throw new ArgumentNullException(nameof(projectilePrefab));
+            if (projectilePool == null)
+                throw new ArgumentNullException(nameof(projectilePool));
 
             if (string.IsNullOrWhiteSpace(layerName))
                 throw new ArgumentException("Layer name cannot be empty.", nameof(layerName));
 
             _firePoint = firePoint;
-            _projectilePrefab = projectilePrefab;
+            _projectilePool = projectilePool;
 
             _projectileLayer = LayerMask.NameToLayer(layerName);
 
@@ -37,18 +38,29 @@ namespace CosmoBlast.Weapons
 
             t += Time.deltaTime;
 
-            if (t >= 3f)
+            if (t >= 0.5f)
             {
                 Debug.Log($"Pistol shooting {_firePoint.position} {_firePoint.gameObject.name}");
 
-                GameObject bullet = UnityEngine.Object.Instantiate(
-                    _projectilePrefab,
-                    _firePoint.position,
-                    _firePoint.rotation);
-                bullet.layer = _projectileLayer;
-                if (bullet.layer == LayerMask.NameToLayer(Layers.EnemyProjectile))
+                // GameObject bullet = UnityEngine.Object.Instantiate(
+                //     _projectilePrefab,
+                //     _firePoint.position,
+                //     _firePoint.rotation);
+                // bullet.layer = _projectileLayer;
+                // if (bullet.layer == LayerMask.NameToLayer(Layers.EnemyProjectile))
+                // {
+                //     bullet.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                // }
+
+                GameObject projectile = _projectilePool.Get();
+
+                projectile.transform.SetPositionAndRotation(_firePoint.position, _firePoint.rotation);
+
+                projectile.layer = _projectileLayer;
+
+                if (projectile.layer == LayerMask.NameToLayer(Layers.EnemyProjectile))
                 {
-                    bullet.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                    projectile.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
                 }
 
                 t = 0;

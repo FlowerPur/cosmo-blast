@@ -1,23 +1,24 @@
 using System;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 namespace CosmoBlast.Weapons
 {
     public sealed class WeaponFactory
     {
-        private readonly GameObject _defaultBulletPrefab;
+        private readonly ObjectPool<GameObject> _defaultBulletPool;
 
-        public WeaponFactory(GameObject defaultBulletPrefab)
+        public WeaponFactory(ObjectPool<GameObject> defaultBulletPool)
         {
-            _defaultBulletPrefab = defaultBulletPrefab != null
-                ? defaultBulletPrefab
-                : throw new ArgumentNullException(nameof(defaultBulletPrefab));
+            _defaultBulletPool = defaultBulletPool != null
+                ? defaultBulletPool
+                : throw new ArgumentNullException(nameof(defaultBulletPool));
         }
 
-        public PistolWeapon CreateDefaultWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile) => new PistolWeapon(firePoint, _defaultBulletPrefab, layerName);
+        public PistolWeapon CreateDefaultWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile) => new PistolWeapon(firePoint, _defaultBulletPool, layerName);
 
-        public PistolWeapon CreatePistolWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile) => new PistolWeapon(firePoint, _defaultBulletPrefab, layerName);
+        public PistolWeapon CreatePistolWeapon(Transform firePoint, string layerName = Layers.PlayerProjectile) => new PistolWeapon(firePoint, _defaultBulletPool, layerName);
 
         public AssaultRifleWeapon CreateAssaultRifleWeapon(Transform firePoint) => new AssaultRifleWeapon(firePoint, null);
 
